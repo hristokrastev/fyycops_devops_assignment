@@ -108,7 +108,7 @@ if __name__ == "__main__":
         CLUSTER_NAME = os.getenv("CLUSTER_NAME", 'homework1')
         CLUSTER_SIZE = os.getenv("CLUSTER_SIZE", 's-2vcpu-4gb')
         CLUSTER_NODES = os.getenv("CLUSTER_NODES", '2')
-        CLUSTER_VERSION = os.getenv("CLUSTER_VERSION", '1.18.8-do.1')
+        CLUSTER_VERSION = os.getenv("CLUSTER_VERSION", '1.18.10-do.2')
         CLUSTER_REGION = os.getenv("CLUSTER_REGION", 'fra1')
         CLUSTER_KUBECONFIG_VALIDITY = os.getenv("CLUSTER_KUBECONFIG_VALIDITY", 2592000)
 
