@@ -8,7 +8,9 @@ The repository contains three folders in its root:
 
 - application: the spring boot application
 - assignments: contains assignments for you to solve
-- kubernetes: contains python scripts to deploy and destroy a kubernetes cluster in digitalocean
+- kubernetes: contains python scripts to deploy and destroy a kubernetes cluster in digitalocean. 
+
+*Attention:* You do not have to spin up a kubernetes cluster. We already have one setup for you - see the [Get your kubeconfig file](#kubeconfig)
 
 ## Preparation
 
@@ -27,7 +29,7 @@ You need the following software installed on your machine to complete the assign
 - kubectl: You need kubectl installed to access the kubernetes cluster and deploy the application.
 - make: The application can be built with a makefile (optional, you can also use mvn directly).
 
-### Get your kubeconfig file
+### <a name="kubeconfig"></a>Get your kubeconfig file
 
 We prepared a kubernetes cluster for the assignment.
 
