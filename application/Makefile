@@ -25,7 +25,7 @@ package: compile
 build: compile
 	@$(mvn) jib:build
 
-# run docker image locally
+# run previously pushed docker image locally
 start: stop
 	@$(mvn) docker:start
 stop:
