@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ## Spin up cluster
 
 ```bash
-DIGITALOCEAN_ACCESS_TOKEN=mycoolaccesstoken ./setup.py
+DIGITALOCEAN_ACCESS_TOKEN=mycoolaccesstoken CLUSTER_NAME=homework1 ./setup.py
 ```
 
 Encrypt the kubeconfig filw with the candidates public gpg key and send it to her.
@@ -37,17 +37,17 @@ After the assingment is complete remove the loadbalancer and the kubernetes clus
 To remove the loadbalancer remove the corresponding service from the kubernetes cluster
 ```bash
 # list all services and check for "loadbalancer" services
-kubectl get services
+KUBECONFIG=./kubeconfig kubectl get services
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
 demoapp-loadbalancer   LoadBalancer   10.245.248.14   46.101.68.163   80:31782/TCP   6m37s
 kubernetes             ClusterIP      10.245.0.1      <none>          443/TCP        16m
 
 # delete the service
-kubectl delete service demoapp-loadbalancer
+KUBECONFIG=./kubeconfig kubectl delete service demoapp-loadbalancer
 service "demoapp-loadbalancer" deleted
 ```
 
 Next, delete the whole cluster from the digitalocean account
 ```bash
-DIGITALOCEAN_ACCESS_TOKEN=mycoolaccesstoken ./destroy.py
+DIGITALOCEAN_ACCESS_TOKEN=mycoolaccesstoken CLUSTER_NAME=homework1 ./destroy.py
 ```
