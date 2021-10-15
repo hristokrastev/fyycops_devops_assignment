@@ -34,7 +34,8 @@ class DigitalOceanClient(object):
     def check_for_cluster(self, name):
         """
             check if the given cluster already exists
-            returns false if it does, returns true if it doesnt
+            returns the id if it exists
+            returns none if it doesnt
         """
 
         r = requests.get('{}/kubernetes/clusters'.format(self.base_url), headers=self.request_headers)
@@ -43,9 +44,10 @@ class DigitalOceanClient(object):
 
         for c in response_body['kubernetes_clusters']:
             if c['name'] == name:
-                return False
+                self.k8s_cluster_id = c['id']
+                continue
 
-        return True
+        return self.k8s_cluster_id
 
     def deploy_cluster(self, name, size, nodes, version, region):
         payload = {
@@ -110,7 +112,7 @@ if __name__ == "__main__":
         CLUSTER_NODES = os.getenv("CLUSTER_NODES", '2')
         CLUSTER_VERSION = os.getenv("CLUSTER_VERSION", '1.21.3-do.0')
         CLUSTER_REGION = os.getenv("CLUSTER_REGION", 'fra1')
-        CLUSTER_KUBECONFIG_VALIDITY = os.getenv("CLUSTER_KUBECONFIG_VALIDITY", 2592000)
+        CLUSTER_KUBECONFIG_VALIDITY = os.getenv("CLUSTER_KUBECONFIG_VALIDITY", 2592000) # valid for 30 days in seconds
 
         if not DO_TOKEN:
             raise ValueError("Digitalocean Access token not specified.")
@@ -120,9 +122,9 @@ if __name__ == "__main__":
         do = DigitalOceanClient(DO_TOKEN)
 
         # check if cluster already exists
-        if not do.check_for_cluster(CLUSTER_NAME):
+        if do.check_for_cluster(CLUSTER_NAME):
             raise BaseException("Kubernetes cluster '{}' already exists.".format(CLUSTER_NAME))
-    
+
         # deploy cluster
         print ("Deploy kubernetes cluster")
         do.deploy_cluster(
@@ -138,7 +140,7 @@ if __name__ == "__main__":
         # get kubeconfig file valid for N seconds
         # (set to 30days)
         print("Download kubeconfig file")
-        with open('kubeconfig', 'w') as file:
+        with open('kubeconfig-{}'.format(CLUSTER_NAME), 'w') as file:
             file.write(do.retrieve_kubeconfig(CLUSTER_KUBECONFIG_VALIDITY))
 
     except:

@@ -1,6 +1,6 @@
 .env
 .venv
-kubeconfig
+kubeconfig*
 application/.m2/settings.xml
 application/target
 application/.classpath
