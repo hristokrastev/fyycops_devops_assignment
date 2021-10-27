@@ -1,6 +1,7 @@
 .env
 .venv
 kubeconfig*
+!kubeconfig.py
 application/.m2/settings.xml
 application/target
 application/.classpath
