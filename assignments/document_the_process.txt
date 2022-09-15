@@ -1,0 +1,125 @@
+Assignment:
+
+https://github.com/hristokrastev/fyycops_devops_assignment
+
+https://hub.docker.com/repository/docker/hhkprojects/demoapp
+
+- run the already prepared commands from the Makefile
+
+make repo;make compile etc...
+
+instal doctl
+adding the tocken
+saving the cluster config and setting the context
+kubectl get nodes
+kubectl get pods
+
+create manifest.yaml with deployment 
+
+kubectl apply -f manifest.yaml
+
+
+
+- access with port forward:
+https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/
+
+kubectl get pod mongo-664f458474-lzcpb --template='{{(index (index .spec.containers 0).ports 0).containerPort}}{{"\n"}}'
+
+kubectl port-forward mongo-664f458474-lzcpb 28015:27017
+
+kubectl port-forward pods/mongo-664f458474-lzcpb 28015:27017
+
+open new terminal
+
+$ mongosh --port 28015
+
+Current Mongosh Log ID: 63237b69fff4c981361766a9
+Connecting to:          mongodb://127.0.0.1:28015/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+Using MongoDB:          4.2.22
+Using Mongosh:          1.5.4
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.  
+
+------
+   The server generated these startup warnings when booting 
+   2022-09-15T18:44:14.814+0000:
+   2022-09-15T18:44:14.814+0000: ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+   2022-09-15T18:44:14.814+0000: **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2022-09-15T18:44:15.556+0000:
+   2022-09-15T18:44:15.556+0000: ** WARNING: Access control is not enabled for the database.
+   2022-09-15T18:44:15.556+0000: **          Read and write access to data and configuration is unrestricted.
+   2022-09-15T18:44:15.556+0000:
+   2022-09-15T18:44:15.556+0000:
+   2022-09-15T18:44:15.556+0000: ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
+   2022-09-15T18:44:15.556+0000: **        We suggest setting it to 'never'
+   2022-09-15T18:44:15.556+0000:
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test> db.runCommand( { ping: 1 } )
+{ ok: 1 }
+test>
+
+-expose the app to internet
+https://www.digitalocean.com/community/tech_talks/how-to-use-kubernetes-services-to-expose-your-app
+
+add service.yaml and add Loadbalancer:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fyyc
+spec:
+  type: LoadBalancer
+  selector:
+    app: fyyc
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+
+kubectl get services
+
+
+- config the application
+
+update the application.yml file as follows
+
+
+app:
+  banner:
+    label: "DIGITALOCEAN"
+    color: "blue"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+
+
+- Add liveness and readiness probes
+
+started to add parts from here:
+
+https://medium.com/@salarai.de/how-to-enable-liveness-and-readiness-probes-in-a-spring-boot-application-a40cf3423db3
+
+stopped when it get too much java :)

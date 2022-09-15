@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fyyc-deployment
+  labels:
+    app: fyyc
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fyyc
+  template:
+    metadata:
+      labels:
+        app: fyyc
+    spec:
+      containers:
+      - name: fyyc
+        image: hhkprojects/demoapp:latest
+        ports:
+        - containerPort: 80
