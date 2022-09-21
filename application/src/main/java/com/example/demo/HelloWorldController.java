@@ -10,6 +10,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HelloWorldController {
 
+    // private final RabbitTemplate rabbitTemplate;
+
+    // @Autowired
+    // public HomeController(RabbitTemplate rabbitTemplate) {
+    //     this.rabbitTemplate = rabbitTemplate;
+    // }
+
+    // @GetMapping
+    // public String rabbitHealth() {
+    //     return "Health Checks!";
+    // }
+
     @Value("${app.banner.label}")
     private String label;
 

@@ -1,11 +1,14 @@
 
 app:
   banner:
-    label: "LOCAL"
-    color: "DarkViolet"
+    label: "DIGITALOCEAN"
+    color: "blue"
 
 management:
   endpoints:
     web:
       exposure:
         include: "health"
+    health:
+      probes:
+        enabled: true
